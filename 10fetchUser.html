@@ -1,0 +1,44 @@
+<!-- this script
+  using window.localStorage to see if you can userId
+  uses try {} catch {}
+    -try --gets userId and info and returns it
+    -catch --not there
+           -removes userId
+           -fetchUser() again but won't have id
+           -so grab random user id
+           set user id for next time and return that user
+-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+  </head>
+  <body>
+  <script>
+    const API = 'https://acme-users-api-rev.herokuapp.com/api';
+    const fetchUser = async ()=> {
+      const storage = window.localStorage;
+      const userId = storage.getItem('userId');
+      if(userId){
+        try {
+          return (await axios.get(`${API}/users/detail/${userId}`)).data;
+        }
+        catch(ex){
+          storage.removeItem('userId');
+          return fetchUser();
+        }
+      }
+      const user = (await axios.get(`${API}/users/random`)).data;
+      storage.setItem('userId', user.id);
+      return  user;
+    };
+    const setUpApp = async ()=> {
+      const user = await fetchUser();
+      //const notes = (await axios(`${API}/users/${user.id}/notes`)).data; //get notes
+      const notes = (await axios(`${API}/users/${user.id}/followingCompanies`)).data; //get companies user is following
+      console.log(notes);
+    }
+    setUpApp();
+  </script>
+  </body>
+</html>

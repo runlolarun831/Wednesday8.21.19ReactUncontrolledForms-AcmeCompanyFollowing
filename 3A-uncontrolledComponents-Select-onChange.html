@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<style>
+body {
+  font-family: verdana;
+}
+select, button {
+  height: 2rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+form {
+  border: solid 1px tomato;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+</style>
+  </head>
+  <body>
+    <div id='root'></div>
+    <script type='text/babel'>
+      const { Component } = React;
+      const { render } = ReactDOM;
+
+      class App extends Component {
+        constructor() {
+          super();
+          this.state = {
+            myNumber: 3
+          };
+          window.setTimeout(() => {
+            const change = {
+              myNumber: 2
+            };
+            this.setState(change);
+          }, 1000);
+        }
+        render(){
+          const { myNumber } = this.state;
+          return (
+            <div>
+              <select value={ myNumber }>
+                {
+                  [1,2,3,4,5].map( num => <option key={ num }>{ num }</option>)
+                }
+              </select>
+            </div>
+          )
+        };
+      }
+      const root = document.querySelector('#root');
+      render(<App />, root);
+    </script>
+  </body>
+</html>

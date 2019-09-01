@@ -1,0 +1,64 @@
+Restful Routes
+Look at routes and figure out what is in it...uses descritive words for dat, usually easy to figure out what is in Endpoint
+
+
+RESTful routes use verbs and show how to structure our routes
+ex)
+  Endpoint /users/:id/companyProfits
+                  ^^^ we give it the company id to find the particular company's profits
+
+----GET----
+get requests are used for reading data
+we have used GET in get requests in Axios
+We have mostly used Get requests
+
+*****Other ways to call routes thend to be destructive*****
+----POST----
+post is the verb we use to create data
+looking at POST ex. below
+all the requests over this route are going across the server, this is some sort of request, HTTP request, that goes over the wire, it not only describes URL of where you are going to, but also give some info about the verb(POST)
+if route exists
+this allows the API to look at the PAYLOAD which allows a user to follow company and pass companyID, rating, and userId ---this allows user to follow company
+
+----PUT----
+allows user to update what they are following
+
+PUT /api/users/:userId/followingCompanies/:followingId
+               ^^^^^^^                     ^^^^^^^^^^^
+               user                         the id of what they are following
+
+----DELETE----
+
+DELETE /api/users/:userId/followingCompanies/:followingId
+                  ^^^^^^^                     ^^^^^^^^^^^
+                  user                         the id of what they are deleting
+
+returns nothing
+vvvvvvvvv(using example of API)vvvvvvvvvvvvvv
+
+Endpoint /users/:id/followingCompanies
+
+/api/users/:id/followingCompanies Returns the companies a user is following.
+----------------------------------------------------------------------------
+POST /api/users/:userId/followingCompanies
+PAYLOAD { rating: number, companyId: UUID }
+returns the created following
+---------------------------------------------------------------------------
+
+PUT /api/users/:userId/followingCompanies/:followingId
+PAYLOAD { rating: number, companyId: UUID }
+returns the updated following
+
+---------------------------------------------------------------------------
+DELETE /api/users/:userId/followingCompanies/:followingId
+returns nothing
+
+
+=======================================================
+Get request if for READING data
+
+POST route - used to create
+
+PUT verb to update
+
+DELETE nothing returned

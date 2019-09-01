@@ -1,0 +1,78 @@
+<!--6UncontrolledFormsRadioButtons.html
+Radio buttons have a label.  ex. lucky / unLucky.  Radio buttons have a checked property.
+  Another way to use a form components within the context of presentational components.
+  They are uncontrolled in presentational component because they have no state from within this component.
+   -->
+   <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+      <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+      <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+  body {
+    font-family: verdana;
+  }
+  select, button {
+    height: 2rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  form {
+    border: solid 1px tomato;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  </style>
+    </head>
+    <body>
+      <div id='root'></div>
+      <script type='text/babel'>
+        const { Component } = React;
+        const { render } = ReactDOM;
+
+        const MyNumberChooser = ( { myNumber, onUpdate, isLucky })=> {
+          return (
+            <form onSubmit={ ev => ev.preventDefault() }>
+              <select value={ myNumber } onChange= { (ev)=> onUpdate( { myNumber: ev.target.value})}>
+                {
+                  [1,2,3,4,5].map( num => <option key={ num }>{ num }</option>)
+                }
+              </select>
+              <button onClick={ ()=> onUpdate({ isLucky: !isLucky })}>{ isLucky ? 'Set to Unlucky': 'Set toLucky' }</button>
+                <label>Lucky<input type='radio' checked={ isLucky } onChange={  ev => onUpdate( { isLucky : ev.target.checked })}/></label>
+                <label>unLucky<input type='radio' checked={ !isLucky } onChange={ ev => onUpdate( { isLucky: !e.target.checked })}/></label>
+            </form>
+          );
+        };
+
+        class App extends Component {
+          constructor() {
+            super();
+            this.state = {
+              myNumber: 3,
+              isLucky: false
+            };
+            this.onUpdate = this.onUpdate.bind(this);
+          }
+          onUpdate(change) {
+            this.setState(change);
+          }
+          render(){
+            const { myNumber, isLucky} = this.state;
+            const { onUpdate } = this;
+            return (
+              <div>
+                <MyNumberChooser myNumber={ myNumber } onUpdate={ onUpdate} isLucky={ isLucky } />
+                <MyNumberChooser myNumber={ myNumber } onUpdate={ onUpdate} isLucky={ isLucky } />
+                <MyNumberChooser myNumber={ myNumber } onUpdate={ onUpdate} isLucky={ isLucky } />
+              </div>
+            );
+          }
+        }
+        const root = document.querySelector('#root');
+        render(<App />, root);
+      </script>
+    </body>
+  </html>

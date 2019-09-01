@@ -1,0 +1,33 @@
+<!--8B_RestfulRoutes-POST_DELETE.html--
+  changed const user to one in tha API
+this code shows a get request
+go to dev tools, under network, under name, click the last "notes", click headers to see the PAYLOAD-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+  </head>
+  <body>
+  <script>
+    const API = 'https://acme-users-api-rev.herokuapp.com/api';
+    const fetch = async()=> {
+      const user = { id:'41bed6a8-46b1-4182-a69c-3640197cb029'};
+      let notes = (await axios.get(`${API}/users/${user.id}/notes`)).data
+      console.log(notes.length);
+      if(notes.length === 5){
+        await axios.delete(`${API}/users/${user.id}/notes/${notes[0].id}`);
+      }
+    const note = (await axios.post(`${API}/users/${user.id}/notes`, { text: `HI ${Math.random()}`})).data;
+    console.log(note);
+    /*
+    console.log('new note', note.text);
+    await axios.put(`${API}/users/${user.id}/notes/${note.id}`, { text: `${note.text} Updated!!`});
+
+    notes = (await axios.get(`${API}/users/${user.id}/notes`)).data
+    notes.forEach( note => console.log(note.text));
+    */
+    };
+    fetch();
+  </script>
+  </body>
+</html>

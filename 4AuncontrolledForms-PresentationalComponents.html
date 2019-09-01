@@ -1,0 +1,72 @@
+<!--4uncontrolledForms-PresentationalComponents.html
+  change from last video
+pulled the <select value= >   portion out of render and put in a functional component called MyNumberChooser
+it is a component that doesn't have any state associated with it
+it's changing the state of the App component by passing the method down-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<style>
+body {
+  font-family: verdana;
+}
+select, button {
+  height: 2rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+form {
+  border: solid 1px tomato;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+</style>
+  </head>
+  <body>
+    <div id='root'></div>
+    <script type='text/babel'>
+      const { Component } = React;
+      const { render } = ReactDOM;
+
+      const MyNumberChooser = ( { myNumber, onUpdate })=> {
+        return (
+          <form>
+          <select value={ myNumber } onChange= { (ev)=> onUpdate( { myNumber: ev.target.value})}>
+            {
+              [1,2,3,4,5].map( num => <option key={ num }>{ num }</option>)
+            }
+          </select>
+          </form>
+        );
+      };
+
+      class App extends Component {
+        constructor() {
+          super();
+          this.state = {
+            myNumber: 3
+          };
+          this.onUpdate = this.onUpdate.bind(this);
+        }
+        onUpdate(change) {
+          this.setState(change);
+        }
+        render(){
+          const { myNumber } = this.state;
+          const { onUpdate } = this;
+          return (
+            <div>
+              <MyNumberChooser myNumber={ myNumber } onUpdate={ onUpdate} />
+            </div>
+          );
+        }
+      }
+      const root = document.querySelector('#root');
+      render(<App />, root);
+    </script>
+  </body>
+</html>
